@@ -8,16 +8,15 @@ require 'devise_imap_authenticatable/version'
 
 module Devise
 
-  # IMAP server address for authentication.
-  mattr_accessor :imap_server
-  @@imap_server = nil
-
+  # IMAP Host address for authentication.
   mattr_accessor :imap_host
   @@imap_host = 'localhost'
 
+  # IMAP Host address for authentication.
   mattr_accessor :imap_port
   @@imap_port = 143
 
+  # Use SSL for IMAP for authentication.
   mattr_accessor :imap_ssl
   @@imap_ssl = false
 
