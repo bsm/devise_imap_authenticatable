@@ -14,7 +14,7 @@ module Devise
   @@imap_server = nil
 
   mattr_accessor :imap_host
-  @@imap_server = 'localhost'
+  @@imap_host = 'localhost'
 
   mattr_accessor :imap_port
   @@imap_port = 143
