@@ -5,6 +5,7 @@ describe Devise::ImapAdapter do
     @imap_connection = mock('ImapConnection')
     @imap_connection.stub!(:authenticate).and_return(true)
     @imap_connection.stub!(:disconnect).and_return(true)
+    Devise::ImapAdapter.stub!(:previous_version?).and_return(false)
   end
 
   describe 'valid_credentials?' do
@@ -12,7 +13,13 @@ describe Devise::ImapAdapter do
       Net::IMAP.stub!(:new).and_return(@imap_connection)
     end
 
-    it 'should create a connection to the lap server' do
+    it 'should create a connection to the lap server (older versions)' do
+      Net::IMAP.should_receive(:new).with('localhost', :port => 143, :ssl => false)
+      described_class.valid_credentials?('email@here.com', 'password')
+    end
+
+    it 'should create a connection to the lap server (older versions)' do
+      Devise::ImapAdapter.stub!(:previous_version?).and_return(true)
       Net::IMAP.should_receive(:new).with('localhost', 143, false)
       described_class.valid_credentials?('email@here.com', 'password')
     end

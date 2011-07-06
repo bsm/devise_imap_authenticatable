@@ -17,11 +17,15 @@ module Devise
     end
 
     def new_connection
-      if Net::IMAP::VERSION >= "1.1.0"
-        Net::IMAP.new ::Devise.imap_host, :port => ::Devise.imap_port, :ssl => ::Devise.imap_ssl
-      else
+      if previous_version?
         Net::IMAP.new ::Devise.imap_host, ::Devise.imap_port, ::Devise.imap_ssl
+      else
+        Net::IMAP.new ::Devise.imap_host, :port => ::Devise.imap_port, :ssl => ::Devise.imap_ssl
       end
+    end
+
+    def previous_version?
+      Net::IMAP::VERSION < "1.1.0"
     end
 
   end
