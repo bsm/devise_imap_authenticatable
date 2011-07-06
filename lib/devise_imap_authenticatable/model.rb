@@ -27,6 +27,17 @@ module Devise
       def after_imap_authentication
       end
 
+      protected
+
+        # Downcase case-insensitive keys
+        def downcase_keys
+          (self.class.case_insensitive_keys || []).each { |k| self[k].try(:downcase!) }
+        end
+
+        def strip_whitespace
+          (self.class.strip_whitespace_keys || []).each { |k| self[k].try(:strip!) }
+        end
+
       module ClassMethods
 
         # Override in your models if you want to auto-create users
@@ -39,6 +50,7 @@ module Devise
         end
 
       end
+
     end
   end
 end
