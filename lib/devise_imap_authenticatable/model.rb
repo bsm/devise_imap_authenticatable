@@ -23,6 +23,10 @@ module Devise
         Devise::ImapAdapter.valid_credentials? send(::Devise.authentication_keys.first), password
       end
 
+      # Callback, override in your model
+      def after_imap_authentication
+      end
+
       module ClassMethods
 
         # Override in your models if you want to auto-create users
