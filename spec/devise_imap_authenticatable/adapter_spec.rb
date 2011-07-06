@@ -8,6 +8,10 @@ describe Devise::ImapAdapter do
     Devise::ImapAdapter.stub!(:previous_version?).and_return(false)
   end
 
+  let :response do
+    mock "IMAP RESPONSE", :data => mock('DATA', :text => '')
+  end
+
   describe 'valid_credentials?' do
     before do
       Net::IMAP.stub!(:new).and_return(@imap_connection)
@@ -39,7 +43,7 @@ describe Devise::ImapAdapter do
     end
 
     it 'should catch errors when authentication fails' do
-      @imap_connection.stub!(:authenticate).and_raise(Net::IMAP::ResponseError)
+      @imap_connection.stub!(:authenticate).and_raise(Net::IMAP::ResponseError.new(response))
       described_class.valid_credentials?('email@here.com', 'password').should be_false
     end
 
