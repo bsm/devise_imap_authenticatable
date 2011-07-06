@@ -12,7 +12,7 @@ module Devise
         Net::IMAP.new ::Devise.imap_host, ::Devise.imap_port, ::Devise.imap_ssl
       end
 
-      imap.authenticate ::Devise.imap_maechanism, username, password
+      imap.authenticate ::Devise.imap_mechanism, username, password
       true
     rescue Net::IMAP::ResponseError
       false
