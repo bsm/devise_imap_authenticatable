@@ -7,6 +7,7 @@ Bundler.setup
 Bundler.require :default, :test
 
 require 'devise/orm/active_record'
+require 'active_support/core_ext/string'
 
 SPEC_DATABASE = File.expand_path('../tmp/test.sqlite3', __FILE__)
 ActiveRecord::Base.configurations["test"] = { 'adapter' => 'sqlite3', 'database' => SPEC_DATABASE }
@@ -29,4 +30,5 @@ end
 class User < ActiveRecord::Base
   devise :imap_authenticatable
 end
+Devise.add_mapping(:user, {})
 
