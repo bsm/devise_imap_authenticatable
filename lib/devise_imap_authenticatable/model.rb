@@ -20,7 +20,7 @@ module Devise
 
       # Verifies a given password
       def valid_password?(password)
-        Devise::ImapAdapter.valid_credentials? send(authentication_keys.first), password
+        Devise::ImapAdapter.valid_credentials? send(::Devise.authentication_keys.first), password
       end
 
       module ClassMethods
