@@ -1,0 +1,34 @@
+PATH
+  remote: .
+  specs:
+    devise_imap_authenticatable (0.6.0)
+      devise
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    bcrypt-ruby (2.1.4)
+    devise (1.4.2)
+      bcrypt-ruby (~> 2.1.2)
+      orm_adapter (~> 0.0.3)
+      warden (~> 1.0.3)
+    diff-lcs (1.1.2)
+    orm_adapter (0.0.5)
+    rack (1.3.0)
+    rspec (2.6.0)
+      rspec-core (~> 2.6.0)
+      rspec-expectations (~> 2.6.0)
+      rspec-mocks (~> 2.6.0)
+    rspec-core (2.6.4)
+    rspec-expectations (2.6.0)
+      diff-lcs (~> 1.1.2)
+    rspec-mocks (2.6.0)
+    warden (1.0.4)
+      rack (>= 1.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  devise_imap_authenticatable!
+  rspec
