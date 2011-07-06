@@ -1,3 +1,5 @@
-module DeviseImapAuthenticatable
-  VERSION = "0.0.0"
+module Devise
+  module ImapAuthenticatable
+    VERSION = "0.6.0"
+  end
 end

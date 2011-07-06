@@ -6,19 +6,17 @@ module Devise
     # Strategy for signing in a user based on his login and password using IMAP.
     # Redirects to sign_in page if it's not authenticated
     class ImapAuthenticatable < Authenticatable
+
       def valid?
-        valid_controller? && valid_params? && mapping.to.respond_to?(:authenticate_with_ldap)
+        valid_controller? && valid_params? && mapping.to.respond_to?(:authenticate_with_imap)
       end
 
-      # Authenticate a user based on login and password params, returning to warden
-      # success and the authenticated user if everything is okay. Otherwise redirect
-      # to sign in page.
       def authenticate!
-        # if resource = mapping.to.authenticate_with_ldap(params[scope])
-          # success!(resource)
-        # else
-          # fail(:invalid)
-        # end
+        if resource = mapping.to.authenticate_with_imap(params[scope])
+          success!(resource)
+        else
+          fail(:invalid)
+        end
      end
 
       protected
