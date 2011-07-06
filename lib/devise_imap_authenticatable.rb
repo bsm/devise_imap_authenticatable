@@ -12,6 +12,17 @@ module Devise
   mattr_accessor :imap_server
   @@imap_server = nil
 
+  mattr_accessor :imap_host
+  @@imap_server = 'localhost'
+
+  mattr_accessor :imap_port
+  @@imap_port = 143
+
+  mattr_accessor :imap_ssl
+  @@imap_ssl = false
+
+  mattr_accessor :imap_mechanism
+  @@imap_mechanism = "login"
 end
 
 # Add imap_authenticatable module
