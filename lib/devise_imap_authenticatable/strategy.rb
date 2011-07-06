@@ -7,29 +7,27 @@ module Devise
     # Redirects to sign_in page if it's not authenticated
     class ImapAuthenticatable < Authenticatable
 
-      def valid?
-        valid_controller? && valid_params? && mapping.to.respond_to?(:authenticate_with_imap)
-      end
-
       def authenticate!
-        if resource = mapping.to.authenticate_with_imap(params[scope])
+        resource = valid_password? && (find_resource || build_resource)
+
+        if validate(resource){ resource.valid_password?(password) }
+          resource.after_imap_authentication
           success!(resource)
-        else
+        elsif !halted?
           fail(:invalid)
         end
-     end
+      end
 
-      protected
+      private
 
-        def valid_controller?
-          params[:controller] == mapping.controllers[:sessions]
+        def find_resource
+          mapping.to.find_for_imap_authentication(authentication_hash)
         end
 
-        def valid_params?
-          params[scope] && params[scope][:password].present?
+        def build_resource
+          mapping.to.build_for_imap_authentication(authentication_hash)
         end
 
     end
-
   end
 end

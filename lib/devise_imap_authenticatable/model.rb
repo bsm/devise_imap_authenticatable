@@ -3,42 +3,35 @@ require 'devise_imap_authenticatable/strategy'
 module Devise
   module Models
 
+    # IMAP Authenticatable Module
+    #
+    # == Examples
+    #
+    #    User.find(1).valid_password?('password123')         # returns true/false
+    #
     module ImapAuthenticatable
       extend ActiveSupport::Concern
 
       included do
-        attr_accessor :password
+        attr_accessor     :password
+        before_validation :downcase_keys
+        before_validation :strip_whitespace
       end
 
-      # Checks if a resource is valid upon authentication.
-      def valid_imap_authentication?(password)
-        Devise::ImapAdapter.valid_credentials?(self.email, password)
+      # Verifies a given password
+      def valid_password?(password)
+        Devise::ImapAdapter.valid_credentials? send(authentication_keys.first), password
       end
 
       module ClassMethods
 
-        # Authenticate a user based on configured attribute keys. Returns the
-        # authenticated user if it's valid or nil.
-        def authenticate_with_imap(attributes={})
-          return nil unless attributes[:email].present?
+        # Override in your models if you want to auto-create users
+        def build_for_imap_authentication(conditions)
+        end
 
-          # Find the resource by email
-          resource = where(:email => attributes[:email]).first
-
-          # Create the resource if no resource is found
-          if resource.blank?
-            resource = new
-            resource[:email] = attributes[:email]
-          end
-
-          # Validate the resource
-          if resource.try(:valid_imap_authentication?, attributes[:password])
-            resource.save if resource.new_record?
-            return resource
-          else
-            return nil
-          end
-
+        # We assume this method already gets a sanitized conditions hash
+        def find_for_imap_authentication(conditions)
+          find_for_authentication(conditions)
         end
 
       end
