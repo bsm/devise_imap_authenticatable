@@ -8,7 +8,8 @@ require 'devise_imap_authenticatable/adapter'
 
 
 module Devise
-  # imap server address for authentication.
+
+  # IMAP server address for authentication.
   mattr_accessor :imap_server
   @@imap_server = nil
 
