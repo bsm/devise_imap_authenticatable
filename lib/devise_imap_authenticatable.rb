@@ -3,9 +3,8 @@ $: << File.expand_path('../', __FILE__)
 require 'devise'
 require 'devise_imap_authenticatable/strategy'
 require 'devise_imap_authenticatable/model'
-require 'devise_imap_authenticatable/version'
 require 'devise_imap_authenticatable/adapter'
-
+require 'devise_imap_authenticatable/version'
 
 module Devise
 
