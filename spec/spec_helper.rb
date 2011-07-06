@@ -29,6 +29,13 @@ end
 
 class User < ActiveRecord::Base
   devise :imap_authenticatable
+
+  cattr_accessor :case_insensitive_keys
+  self.case_insensitive_keys = [:email].freeze
+
+  cattr_accessor :strip_whitespace_keys
+  self.strip_whitespace_keys = [:email].freeze
+
 end
 Devise.add_mapping(:user, {})
 

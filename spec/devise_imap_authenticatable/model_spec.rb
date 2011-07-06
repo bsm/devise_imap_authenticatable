@@ -12,6 +12,12 @@ describe Devise::Models::ImapAuthenticatable do
     subject.email.should == 'email@here.com'
   end
 
+  it 'should strip the white space from email' do
+    subject.email = '  email@here.com  '
+    subject.valid?
+    subject.email.should == 'email@here.com'
+  end
+
   it 'should validate a users password' do
     Devise::ImapAdapter.should_receive(:valid_credentials?).with('tom@example.com', 'secret').and_return(true)
     subject.valid_password?('secret').should be_true
