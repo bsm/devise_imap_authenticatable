@@ -38,11 +38,11 @@ describe Devise::ImapAdapter do
       described_class.valid_credentials?('email@here.com', 'password')
     end
 
-    it 'should return true when authentication works' do
+    it 'should return true when login works' do
       described_class.valid_credentials?('email@here.com', 'password').should be_true
     end
 
-    it 'should catch errors when authentication fails' do
+    it 'should catch errors when login fails' do
       @imap_connection.stub!(:login).and_raise(Net::IMAP::ResponseError.new(response))
       described_class.valid_credentials?('email@here.com', 'password').should be_false
     end
