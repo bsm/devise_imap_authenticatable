@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Devise::ImapAdapter do
   before do
     @imap_connection = mock('ImapConnection')
-    @imap_connection.stub!(:authenticate).and_return(true)
+    @imap_connection.stub!(:login).and_return(true)
     @imap_connection.stub!(:disconnect).and_return(true)
     Devise::ImapAdapter.stub!(:previous_version?).and_return(false)
   end
@@ -28,8 +28,8 @@ describe Devise::ImapAdapter do
       described_class.valid_credentials?('email@here.com', 'password')
     end
 
-    it 'should authenticate the user' do
-      @imap_connection.should_receive(:authenticate).with('login', 'email@here.com', 'password')
+    it 'should login the user' do
+      @imap_connection.should_receive(:login).with('email@here.com', 'password')
       described_class.valid_credentials?('email@here.com', 'password')
     end
 
@@ -43,7 +43,7 @@ describe Devise::ImapAdapter do
     end
 
     it 'should catch errors when authentication fails' do
-      @imap_connection.stub!(:authenticate).and_raise(Net::IMAP::ResponseError.new(response))
+      @imap_connection.stub!(:login).and_raise(Net::IMAP::ResponseError.new(response))
       described_class.valid_credentials?('email@here.com', 'password').should be_false
     end
 
