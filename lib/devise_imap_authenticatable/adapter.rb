@@ -1,4 +1,5 @@
 require 'net/imap'
+require 'timeout'
 
 module Devise
 
@@ -8,9 +9,11 @@ module Devise
 
     def valid_credentials?(username, password)
       imap = new_connection
-      imap.authenticate ::Devise.imap_mechanism, username, password
+      Timeout.timeout(::Devise.imap_timeout) do
+        imap.login username, password
+      end
       true
-    rescue Net::IMAP::ResponseError
+    rescue Net::IMAP::ResponseError, Timeout::Error
       false
     ensure
       imap.try(:disconnect)

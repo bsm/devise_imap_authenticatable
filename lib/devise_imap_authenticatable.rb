@@ -20,8 +20,9 @@ module Devise
   mattr_accessor :imap_ssl
   @@imap_ssl = false
 
-  mattr_accessor :imap_mechanism
-  @@imap_mechanism = "login"
+  mattr_accessor :imap_timeout
+  @@imap_timeout = 1
+
 end
 
 # Add imap_authenticatable module
