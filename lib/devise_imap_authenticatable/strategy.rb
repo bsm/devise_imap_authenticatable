@@ -31,3 +31,4 @@ module Devise
     end
   end
 end
+Warden::Strategies.add :imap_authenticatable, Devise::Strategies::ImapAuthenticatable
