@@ -26,7 +26,7 @@ end
 
 # Add imap_authenticatable module
 Devise.add_module :imap_authenticatable,
-  :route      => :session,
   :strategy   => true,
-  :controller => :sessions,
-  :model      => 'devise_imap_authenticatable/model'
+  :model      => true,
+  :route      => :session,
+  :controller => :sessions
