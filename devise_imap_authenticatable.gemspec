@@ -19,5 +19,5 @@ Gem::Specification.new do |s|
   s.files        = Dir['LICENSE', 'README', 'lib/**/*']
 
   s.add_dependency "devise", "~> 1.4.0"
-  s.add_dependency "rails", "~> 3.0.0"
+  s.add_dependency "rails", ">= 3.0.0", "< 3.2.0"
 end
