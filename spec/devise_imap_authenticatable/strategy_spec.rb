@@ -2,29 +2,20 @@ require 'spec_helper'
 
 describe Devise::Strategies::ImapAuthenticatable do
 
-  let :env do
+  def env
     Rack::MockRequest.env_for 'sessions/',
       :method => 'POST',
-      :params => { :user => { :email => 'tom@example.com', :password => 'secret'}, :controller => 'devise/sessions' }
-  end
-
-  let :new_user do
-    User.new
-  end
-
-  let :user do
-    User.new do |u|
-      u.id = 123
-      u.email = 'tom@example.com'
-      u.instance_eval { def persisted?; true; end }
-    end
+      :params => { :user => { :email => 'tom@example.com', :password => 'secret'}, :controller => 'devise/sessions' },
+      "devise.allow_params_authentication" => '1'
   end
 
   subject do
-    s = described_class.new(env)
-    s.stub!(:scope => :user)
-    s.valid?
-    s
+    described_class.new env, :user
+  end
+
+  before do
+    User.delete_all
+    subject.should be_valid
   end
 
   it { should be_a(Devise::Strategies::Authenticatable) }
@@ -32,28 +23,24 @@ describe Devise::Strategies::ImapAuthenticatable do
   describe "authentication" do
 
     it 'should find and authenticate user' do
-      User.should_receive(:find_for_imap_authentication).with(:email => "tom@example.com").and_return(user)
-      user.should_receive(:valid_password?).with('secret').and_return(true)
-      user.should_receive(:after_imap_authentication).with()
+      User.create! :email => 'tom@example.com'
+      Devise::ImapAdapter.should_receive(:valid_credentials?).with('tom@example.com', 'secret').and_return(true)
       subject.authenticate!.should == :success
     end
 
     it 'should fail if user not found' do
-      User.should_receive(:find_for_imap_authentication).with(:email => "tom@example.com").and_return(nil)
-      user.should_not_receive(:after_imap_authentication)
       subject.authenticate!.should == :failure
     end
 
     it 'should try to build a new user if user not found' do
-      User.should_receive(:find_for_imap_authentication).with(:email => "tom@example.com").and_return(nil)
-      User.should_receive(:build_for_imap_authentication).with(:email => "tom@example.com").and_return(new_user)
-      new_user.should_receive(:valid_password?).with('secret').and_return(true)
-      subject.authenticate!.should == :success
+      User.should_receive(:build_for_imap_authentication).with(:email => "tom@example.com").and_return User.new(:email => "tom@example.com")
+      Devise::ImapAdapter.should_receive(:valid_credentials?).with('tom@example.com', 'secret').and_return(false)
+      subject.authenticate!.should == :failure
     end
 
     it 'should fail if password is invalid' do
-      User.should_receive(:find_for_imap_authentication).with(:email => "tom@example.com").and_return(user)
-      user.should_receive(:valid_password?).with('secret').and_return(false)
+      User.create! :email => 'tom@example.com'
+      Devise::ImapAdapter.should_receive(:valid_credentials?).with('tom@example.com', 'secret').and_return(false)
       subject.authenticate!.should == :failure
     end
 

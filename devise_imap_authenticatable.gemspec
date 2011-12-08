@@ -18,6 +18,11 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.files        = Dir['LICENSE', 'README', 'lib/**/*']
 
-  s.add_dependency "devise", "~> 1.4.0"
+  s.add_dependency "devise", ">= 1.4.0", "< 1.6.0"
   s.add_dependency "rails", ">= 3.0.0", "< 3.2.0"
+
+  s.add_development_dependency "rspec"
+  s.add_development_dependency "rspec-rails"
+  s.add_development_dependency "sqlite3"
+
 end

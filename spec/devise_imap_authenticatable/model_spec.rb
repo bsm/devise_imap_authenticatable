@@ -2,8 +2,12 @@ require 'spec_helper'
 
 describe Devise::Models::ImapAuthenticatable do
 
+  before do
+    User.delete_all
+  end
+
   subject do
-    User.new :email => 'tom@example.com'
+    User.create! :email => 'tom@example.com'
   end
 
   it 'should downcase the email' do
@@ -24,9 +28,7 @@ describe Devise::Models::ImapAuthenticatable do
   end
 
   it 'should find for a User for imap authentication' do
-    @peter = stub('User')
-    User.should_receive(:find_for_authentication).and_return(@peter)
-    User.find_for_imap_authentication(:email => 'peter@company.com').should == @peter
+    User.find_for_imap_authentication(:email => subject.email).should == subject
   end
 
 
