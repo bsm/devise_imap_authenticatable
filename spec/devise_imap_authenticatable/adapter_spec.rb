@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 require 'spec_helper'
 
 describe Devise::ImapAdapter do
@@ -31,6 +32,14 @@ describe Devise::ImapAdapter do
     it 'should login the user' do
       @imap_connection.should_receive(:login).with('email@here.com', 'password')
       described_class.valid_credentials?('email@here.com', 'password')
+    end
+
+    it 'should encode user credentials' do
+      @imap_connection.should_receive(:login).with do |em, pw|
+        em.encoding.should == Encoding::BINARY if em.respond_to?(:encoding)
+        pw.encoding.should == Encoding::BINARY if pw.respond_to?(:encoding)
+      end
+      described_class.valid_credentials?('email@here.com', '日本語')
     end
 
     it 'should disconnect' do

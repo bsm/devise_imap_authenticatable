@@ -10,7 +10,7 @@ module Devise
     def valid_credentials?(username, password)
       imap = new_connection
       Timeout.timeout(::Devise.imap_timeout) do
-        imap.login username, password
+        imap.login bin_encode(username), bin_encode(password)
       end
       true
     rescue Net::IMAP::ResponseError, Timeout::Error
@@ -29,6 +29,12 @@ module Devise
 
     def previous_version?
       Net::IMAP::VERSION < "1.1.0"
+    end
+
+    def bin_encode(string)
+      encoded = string.dup
+      encoded.force_encoding(Encoding::BINARY) if encoded.respond_to?(:force_encoding)
+      encoded
     end
 
   end
