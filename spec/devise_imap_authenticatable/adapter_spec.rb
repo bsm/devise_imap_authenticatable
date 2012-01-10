@@ -36,11 +36,11 @@ describe Devise::ImapAdapter do
 
     it 'should encode user credentials' do
       @imap_connection.should_receive(:login).with do |em, pw|
-        em.encoding.should == Encoding::BINARY if em.respond_to?(:encoding)
-        pw.encoding.should == Encoding::BINARY if pw.respond_to?(:encoding)
+        em.encoding.should == Encoding::BINARY
+        pw.encoding.should == Encoding::BINARY
       end
       described_class.valid_credentials?('email@here.com', '日本語')
-    end
+    end if RUBY_VERSION >= "1.9.0"
 
     it 'should disconnect' do
       @imap_connection.should_receive(:disconnect)
