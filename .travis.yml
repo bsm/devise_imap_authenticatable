@@ -5,3 +5,7 @@ rvm:
 gemfiles:
   - Gemfile
   - Gemfile.devise-1.4.x
+matrix:
+  exclude:
+    - rvm: ree
+      gemfile: Gemfile
