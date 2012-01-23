@@ -1,11 +1,6 @@
 rvm:
   - 1.9.2
   - 1.9.3
-  - ree
 gemfiles:
   - Gemfile
   - Gemfile.devise-1.4.x
-matrix:
-  exclude:
-    - rvm: ree
-      gemfile: Gemfile
