@@ -13,7 +13,8 @@ module Devise
         imap.login bin_encode(username), bin_encode(password)
       end
       true
-    rescue Net::IMAP::ResponseError, Timeout::Error
+    rescue Net::IMAP::ResponseError, Timeout::Error, Errno::ETIMEDOUT,
+           Errno::ECONNRESET, Errno::EHOSTUNREACH, EOFError, SocketError
       false
     ensure
       imap.try(:disconnect)
