@@ -19,6 +19,13 @@ ActiveRecord::Base.tap do |base|
   end
 end
 
+Devise.setup do |config|
+  config.case_insensitive_keys = [ :email ]
+  config.strip_whitespace_keys = [ :email ]
+  config.reset_password_within = 6.hours
+  config.use_salt_as_remember_token = true
+end
+
 class TestScenario < Rails::Application
   config.root = File.expand_path('../scenario', __FILE__)
   config.active_support.deprecation = $stderr
@@ -27,18 +34,9 @@ class TestScenario < Rails::Application
     nil
   end
 end
-
 TestScenario.initialize!
 
 class User < ActiveRecord::Base
   devise :imap_authenticatable
-
-  cattr_accessor :case_insensitive_keys
-  self.case_insensitive_keys = [:email].freeze
-
-  cattr_accessor :strip_whitespace_keys
-  self.strip_whitespace_keys = [:email].freeze
-
 end
 Devise.add_mapping(:user, {})
-

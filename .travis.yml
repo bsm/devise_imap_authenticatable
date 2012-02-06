@@ -1,6 +1,8 @@
 rvm:
   - 1.9.2
   - 1.9.3
-gemfiles:
+gemfile:
   - Gemfile
   - Gemfile.devise-1.4.x
+  - Gemfile.devise-1.5.x
+

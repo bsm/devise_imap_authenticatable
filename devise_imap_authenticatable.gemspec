@@ -3,7 +3,7 @@ require File.expand_path('../lib/devise_imap_authenticatable/version', __FILE__)
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
-  s.required_ruby_version = '>= 1.8.7'
+  s.required_ruby_version = '>= 1.9.2'
   s.required_rubygems_version = ">= 1.3.6"
 
   s.name        = "devise_imap_authenticatable"
@@ -18,8 +18,8 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.files        = Dir['LICENSE', 'README', 'lib/**/*']
 
-  s.add_dependency "devise", ">= 1.4.0", "< 2.0.0"
-  s.add_dependency "rails", ">= 3.0.0", "< 3.3.0"
+  s.add_dependency "devise", ">= 1.4.0"
+  s.add_dependency "rails", ">= 3.2.0"
 
   s.add_development_dependency "rspec"
   s.add_development_dependency "rspec-rails"
